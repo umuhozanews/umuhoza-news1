@@ -1,60 +1,45 @@
+"use client"
+
+import Link from "next/link"
 import { Header } from "@/components/header"
 import { Footer } from "@/components/footer"
 import { Sidebar } from "@/components/sidebar"
-import { Card, CardContent } from "@/components/ui/card"
-import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
-import { Clock, Eye, Share2 } from "lucide-react"
-import Image from "next/image"
-import { supabase } from "@/lib/supabaseClient"
 
-// Featured + Trending + Videos (static for now)
-const featuredArticle = { /* ... keep as before ... */ }
-const trendingNews = [ /* ... keep as before ... */ ]
-const videos = [ /* ... keep as before ... */ ]
+const CATEGORIES = [
+  "business",
+  "sport",
+  "politics",
+  "health",
+  "entertainment",
+  "religion",
+  "live",
+]
 
-export default async function HomePage() {
-  // Fetch stories from Supabase
-  const { data: stories } = await supabase
-    .from("stories")
-    .select("*")
-    .order("created_at", { ascending: false })
-
+export default function HomePage() {
   return (
     <div className="min-h-screen bg-background">
       <Header />
 
       <main className="container mx-auto px-4 py-8">
         <div className="grid grid-cols-1 lg:grid-cols-4 gap-8">
-          {/* Main Content */}
+          {/* Main content */}
           <div className="lg:col-span-3 space-y-8">
-
-            {/* Ads Section */}
-            <div className="bg-muted/50 border border-border rounded-lg p-8 text-center">
-              <p className="text-muted-foreground">Advertisement Space</p>
-              <p className="text-sm text-muted-foreground mt-1">Daily Updated Ads</p>
+            {/* Welcome */}
+            <div className="text-center py-8">
+              <h1 className="text-4xl font-bold mb-4">Welcome to Umuhoza News</h1>
+              <p className="text-muted-foreground max-w-2xl mx-auto">
+                Stay informed with the latest news in Rwanda, Africa, and around the world.
+              </p>
             </div>
 
-            {/* Featured Article */}
-            {/* keep your featured article card here ... */}
-
-            {/* Trending News Section */}
-            {/* keep your trendingNews section here ... */}
-
-            {/* Videos Section */}
-            {/* keep your videos section here ... */}
-
-            {/* Supabase Stories Section */}
-            <div>
-              <h2 className="text-2xl font-bold mb-6">Latest Stories (from Supabase)</h2>
-              <ul className="space-y-4">
-                {stories?.map((story) => (
-                  <li key={story.id} className="border-b pb-2">
-                    <h3 className="text-xl font-bold">{story.title}</h3>
-                    <p>{story.body}</p>
-                  </li>
-                ))}
-              </ul>
+            {/* Category links */}
+            <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4">
+              {CATEGORIES.map((cat) => (
+                <Link key={cat} href={`/${cat}`}>
+                  <Button className="w-full capitalize">{cat}</Button>
+                </Link>
+              ))}
             </div>
           </div>
 
